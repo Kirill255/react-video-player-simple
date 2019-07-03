@@ -65,6 +65,10 @@ export const Player = () => {
     videoRef.current.volume = event.currentTarget.value; // берём значение инпута(0-1 с шагом 0.05) и устанавливаем нативное свойство volume html-тэга video
   };
 
+  const toggleSpeed = (event) => {
+    videoRef.current.playbackRate = event.currentTarget.value; // берём значение инпута(0.5-2 с шагом 0.1) и устанавливаем нативное свойство playbackRate html-тэга video
+  };
+
   console.log(progress);
 
   return (
@@ -97,6 +101,15 @@ export const Player = () => {
           step="0.05"
           type="range"
           onChange={toggleVolume}
+        />
+        <input
+          className="slider"
+          max="2"
+          min="0.5"
+          name="playbackRate"
+          step="0.1"
+          type="range"
+          onChange={toggleSpeed}
         />
         <button data-skip="-10" onClick={skip}>
           « 10s
