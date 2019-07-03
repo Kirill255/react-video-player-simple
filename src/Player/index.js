@@ -6,6 +6,7 @@ import "./style.scss";
 
 export const Player = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
   const videoRef = useRef(null);
 
   // вкл/выкл видео по нажатию на пробел
@@ -41,9 +42,17 @@ export const Player = () => {
     videoRef.current.currentTime += Number.parseFloat(seconds); // currentTime += 25 or currentTime += -10
   };
 
+  // устанавливаем прогресс проигранного видео в процентах, вызываем эту функцию при наступлении нативного события timeupdate у html-тэга video, timeupdate вызывается когда время в currentTime было обновлено
+  const handleProgress = () => {
+    const percent = (videoRef.current.currentTime / videoRef.current.duration) * 100; // сколько видео воспроизвелось на данный момент в процентах, текущий прогресс
+    setProgress(percent);
+  };
+
+  console.log(progress);
+
   return (
     <div className="player">
-      <video src={video} ref={videoRef} onClick={togglePlay} />
+      <video src={video} ref={videoRef} onClick={togglePlay} onTimeUpdate={handleProgress} />
       <div className="controls">
         <div className="progress">
           <div className="filled" />
