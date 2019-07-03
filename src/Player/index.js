@@ -70,24 +70,16 @@ export const Player = () => {
   };
 
   const toggleFullscreen = () => {
-    // https://developer.mozilla.org/en-US/docs/Web/API/FullscreenOptions/navigationUI
-    const fullscreenOptions = {
-      navigationUI: "auto" // default
-    };
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen
+    // https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API/Guide
     if (!document.fullscreenElement) {
-      videoRef.current
-        .requestFullscreen(fullscreenOptions)
-        .then(() => {
-          console.log("Full-screen mode");
-        })
-        .catch((err) => {
-          // prettier-ignore
-          console.log(`An error occurred while trying to switch into full-screen mode: ${err.message} (${err.name})`);
-        });
+      videoRef.current.requestFullscreen().catch((err) => {
+        // prettier-ignore
+        console.log(`An error occurred while trying to switch into full-screen mode: ${err.message} (${err.name})`);
+      });
     } else {
-      document.exitFullscreen();
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
     }
   };
 
