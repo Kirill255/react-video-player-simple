@@ -61,6 +61,10 @@ export const Player = () => {
     videoRef.current.currentTime = scrubTime;
   };
 
+  const toggleVolume = (event) => {
+    videoRef.current.volume = event.currentTarget.value; // берём значение инпута(0-1 с шагом 0.05) и устанавливаем нативное свойство volume html-тэга video
+  };
+
   console.log(progress);
 
   return (
@@ -85,7 +89,15 @@ export const Player = () => {
         <button title="Toggle Play" onClick={togglePlay}>
           {playControl}
         </button>
-        <input className="slider" max="1" min="0" name="volume" step="0.05" type="range" />
+        <input
+          className="slider"
+          max="1"
+          min="0"
+          name="volume"
+          step="0.05"
+          type="range"
+          onChange={toggleVolume}
+        />
         <button data-skip="-10" onClick={skip}>
           « 10s
         </button>
