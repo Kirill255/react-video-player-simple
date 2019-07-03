@@ -55,7 +55,12 @@ export const Player = () => {
       <video src={video} ref={videoRef} onClick={togglePlay} onTimeUpdate={handleProgress} />
       <div className="controls">
         <div className="progress">
-          <div className="filled" />
+          <div
+            className="filled"
+            style={{
+              "--filledProgressBar": `${progress}%`
+            }}
+          />
         </div>
         <button title="Toggle Play" onClick={togglePlay}>
           {playControl}
