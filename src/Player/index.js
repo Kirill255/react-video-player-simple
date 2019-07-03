@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import video from "./video.mp4";
 
@@ -7,6 +7,25 @@ import "./style.scss";
 export const Player = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
+
+  // вкл/выкл видео по нажатию на пробел
+  useEffect(() => {
+    // https://developer.mozilla.org/ru/docs/Web/API/KeyboardEvent https://keycode.info/
+    const handler = (event) => {
+      // console.log(event);
+      // if ((event.keyCode || event.which) === 32 || event.key === " ") {
+      //   togglePlay();
+      // }
+
+      if (event.code === "Space") {
+        togglePlay();
+      }
+    };
+
+    document.addEventListener("keydown", handler);
+
+    return () => document.removeEventListener("keydown", handler);
+  }, []);
 
   const playControl = isPlaying ? <>&#10074;&#10074;</> : <>&#9654;</>; // икноки для кнопки play/pause ▶/❚❚, в данном случае для икноки pause мы используем символ вертикальной черты ❚ (&#10074;), повторённый дважды ❚❚, так как символа pause нету http://an-site.ru/sim.htm
 
