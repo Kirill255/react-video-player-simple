@@ -7,6 +7,7 @@ import "./style.scss";
 export const Player = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isProgressCapturing, setIsProgressCapturing] = useState(false); // нажата ли в данный момент кнопка мыши, нужно для time scrubbing'а не просто по клику в точку на временной шкале, а с зажатой кнопкой мыши и протягиванием шкалы до нужной позиции
   const videoRef = useRef(null);
 
   // вкл/выкл видео по нажатию на пробел
@@ -66,7 +67,14 @@ export const Player = () => {
     <div className="player">
       <video src={video} ref={videoRef} onClick={togglePlay} onTimeUpdate={handleProgress} />
       <div className="controls">
-        <div className="progress" onClick={scrub}>
+        <div
+          className="progress"
+          onClick={scrub}
+          onMouseDown={() => setIsProgressCapturing(true)}
+          onMouseMove={(event) => isProgressCapturing && scrub(event)}
+          onMouseUp={() => setIsProgressCapturing(false)}
+        >
+          >
           <div
             className="filled"
             style={{
