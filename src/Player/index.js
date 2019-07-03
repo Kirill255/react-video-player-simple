@@ -16,6 +16,12 @@ export const Player = () => {
     setIsPlaying(method === "play"); // устанавливается true/false, в зависимости от этоо у нас меняется отображение иконки на кнопке play/pause
   };
 
+  // прокручиваем прогресс проигрывания вперёд/назад
+  const skip = (event) => {
+    const seconds = event.target.dataset["skip"]; // event.target.dataset.skip, берём занчение дата-атрибута data-skip="-10"
+    videoRef.current.currentTime += Number.parseFloat(seconds); // currentTime += 25 or currentTime += -10
+  };
+
   return (
     <div className="player">
       <video src={video} ref={videoRef} onClick={togglePlay} />
@@ -27,8 +33,12 @@ export const Player = () => {
           {playControl}
         </button>
         <input className="slider" max="1" min="0" name="volume" step="0.05" type="range" />
-        <button data-skip="-10">« 10s</button>
-        <button data-skip="25">25s »</button>
+        <button data-skip="-10" onClick={skip}>
+          « 10s
+        </button>
+        <button data-skip="25" onClick={skip}>
+          25s »
+        </button>
         <button>&#10021;</button>
       </div>
     </div>
