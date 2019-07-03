@@ -48,13 +48,25 @@ export const Player = () => {
     setProgress(percent);
   };
 
+  // устанавливаем прогресс видео указателем мыши при клике
+  const scrub = (event) => {
+    // offsetX — свойство события мыши, возвращает расстояние от «начала» элемента до позиции указателя мыши по координате X
+    // nativeEvent — ссылка на нативное, НЕ кросс-браузерное событие
+    // offsetWidth — возвращает ширину элемента
+    // О разнице между event.target и event.currentTarget: https://github.com/facebook/react/issues/5733#issuecomment-167188516
+
+    const scrubTime =
+      (event.nativeEvent.offsetX / event.currentTarget.offsetWidth) * videoRef.current.duration; // время в которое нужно перемотать, тоесть мы получаем физическую точку(offsetX), в которую мы кликнули на временной шкале прогресса(offsetWidth) и переводим её во время
+    videoRef.current.currentTime = scrubTime;
+  };
+
   console.log(progress);
 
   return (
     <div className="player">
       <video src={video} ref={videoRef} onClick={togglePlay} onTimeUpdate={handleProgress} />
       <div className="controls">
-        <div className="progress">
+        <div className="progress" onClick={scrub}>
           <div
             className="filled"
             style={{
