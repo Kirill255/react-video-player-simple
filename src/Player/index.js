@@ -69,6 +69,28 @@ export const Player = () => {
     videoRef.current.playbackRate = event.currentTarget.value; // берём значение инпута(0.5-2 с шагом 0.1) и устанавливаем нативное свойство playbackRate html-тэга video
   };
 
+  const toggleFullscreen = () => {
+    // https://developer.mozilla.org/en-US/docs/Web/API/FullscreenOptions/navigationUI
+    const fullscreenOptions = {
+      navigationUI: "auto" // default
+    };
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen
+    if (!document.fullscreenElement) {
+      videoRef.current
+        .requestFullscreen(fullscreenOptions)
+        .then(() => {
+          console.log("Full-screen mode");
+        })
+        .catch((err) => {
+          // prettier-ignore
+          console.log(`An error occurred while trying to switch into full-screen mode: ${err.message} (${err.name})`);
+        });
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
   console.log(progress);
 
   return (
@@ -117,7 +139,7 @@ export const Player = () => {
         <button data-skip="25" onClick={skip}>
           25s »
         </button>
-        <button>&#10021;</button>
+        <button onClick={toggleFullscreen}>&#10021;</button>
       </div>
     </div>
   );
