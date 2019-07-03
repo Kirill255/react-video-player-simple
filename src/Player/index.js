@@ -8,6 +8,8 @@ export const Player = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isProgressCapturing, setIsProgressCapturing] = useState(false); // нажата ли в данный момент кнопка мыши, нужно для time scrubbing'а не просто по клику в точку на временной шкале, а с зажатой кнопкой мыши и протягиванием шкалы до нужной позиции
+  const [volume, setVolume] = useState("0.5");
+  const [speed, setSpeed] = useState("1");
   const videoRef = useRef(null);
 
   // вкл/выкл видео по нажатию на пробел
@@ -61,12 +63,17 @@ export const Player = () => {
     videoRef.current.currentTime = scrubTime;
   };
 
-  const toggleVolume = (event) => {
-    videoRef.current.volume = event.currentTarget.value; // берём значение инпута(0-1 с шагом 0.05) и устанавливаем нативное свойство volume html-тэга video
-  };
+  // устанавливаем громкость или скорость проигрывания
+  const handleRangeUpdate = (event) => {
+    const { name, value } = event.currentTarget; // event.target
+    videoRef.current[name] = value; // берём значение инпута и устанавливаем нативное свойство volume/playbackRate html-тэга video
 
-  const toggleSpeed = (event) => {
-    videoRef.current.playbackRate = event.currentTarget.value; // берём значение инпута(0.5-2 с шагом 0.1) и устанавливаем нативное свойство playbackRate html-тэга video
+    if (name === "volume") {
+      setVolume(value);
+    }
+    if (name === "playbackRate") {
+      setSpeed(value);
+    }
   };
 
   const toggleFullscreen = () => {
@@ -114,7 +121,8 @@ export const Player = () => {
           name="volume"
           step="0.05"
           type="range"
-          onChange={toggleVolume}
+          value={volume}
+          onChange={handleRangeUpdate}
         />
         <input
           className="slider"
@@ -123,7 +131,8 @@ export const Player = () => {
           name="playbackRate"
           step="0.1"
           type="range"
-          onChange={toggleSpeed}
+          value={speed}
+          onChange={handleRangeUpdate}
         />
         <button data-skip="-10" onClick={skip}>
           « 10s
