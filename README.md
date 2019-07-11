@@ -14,6 +14,18 @@ https://github.com/mike-engel/a11y-css-reset
 
 https://github.com/mozdevs/cssremedy
 
+https://github.com/necolas/normalize.css
+
+https://github.com/csstools/normalize.css
+
+https://github.com/adamgruber/opinionate.css
+
+https://github.com/sindresorhus/modern-normalize
+
+https://meyerweb.com/eric/tools/css/reset/
+
+https://gist.github.com/DavidWells/18e73022e723037a50d6
+
 ## Video
 
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
